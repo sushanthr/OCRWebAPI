@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <script>
+        function clearOCR()
+        {
+            let bb_container = document.getElementById("bb_container");
+            bb_container.innerHTML = "";
+        }
+
         async function main() {
+            clearOCR();
             const textDetector = new TextDetector();
             try {
                 let image = document.getElementById("input");
@@ -25,11 +32,7 @@
                 console.error('Text detection failed:', e);
             }
         }
-        function clearOCR()
-        {
-            let bb_container = document.getElementById("bb_container");
-            bb_container.innerHTML = "";
-        }
+
         function dropHandler(ev)
         {
             // Prevent default behavior (Prevent file from being opened)
