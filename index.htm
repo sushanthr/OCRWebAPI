@@ -1,0 +1,80 @@
+<!DOCTYPE>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script>
+        async function main() {
+            const textDetector = new TextDetector();
+            try {
+                let image = document.getElementById("input");
+                const texts = await textDetector.detect(image);
+                let bb_container = document.getElementById("bb_container");
+                texts.forEach(text => {
+                    let box = text.boundingBox;
+                    let b = document.createElement("div");
+                    let st = `left:${box.left}px; top:${box.top}px; width:${box.width}px; height:${box.height}px;`;
+                    b.innerText = text.rawValue;
+                    b.setAttribute("style", st);
+                    bb_container.appendChild(b);
+                });
+            } catch (e) {
+                console.error('Text detection failed:', e);
+            }
+        }
+        function dropHandler(ev)
+        {
+            // Prevent default behavior (Prevent file from being opened)
+            ev.preventDefault();
+
+            if (ev.dataTransfer.items) {
+                // Use DataTransferItemList interface to access the file(s)
+                [...ev.dataTransfer.items].forEach((item, i) => {
+                    // If dropped items aren't files, reject them
+                    if (item.kind === "file") {
+                        const file = item.getAsFile();
+                        console.log(`A file[${i}].name = ${file.name}`);
+                        var reader=new FileReader();
+                        reader.onload= function (event) {
+                            var image = document.querySelector("img");
+                            image.src = reader.result;
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                });
+            } else {
+                // Use DataTransfer interface to access the file(s)
+                [...ev.dataTransfer.files].forEach((file, i) => {
+                    console.log(`B file[${i}].name = ${file.name}`);
+                });
+            }
+        }
+        function dragOverHandler(ev) {
+            ev.preventDefault();
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1>OCR testbed</h1>
+        <div>
+            <div>
+                Chromium OCR API test bed.<br>
+                <span class="light">
+                To enable experimental Text detection API enable experimental web platform features 
+                <u>edge://flags/#enable-experimental-web-platform-features</u>
+                </span>
+            </div>
+            <button onclick="main()">OCR</button> <button onclick="clearCanvas()">Clear</button><br>
+            <center>&#128071 Drop your images here &#128071;</center>
+            <div id="image_wrapper">
+                <img id="input" src="0567x2.png" ondrop="dropHandler(event)" ondragover="dragOverHandler(event);" onload="main()"></img>
+                <div id="bb_container"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
