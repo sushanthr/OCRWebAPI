@@ -1,10 +1,10 @@
 # OCRWebAPI
 
-Chromiumn based browser have long supported an OCR API to read text from images.
-https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/shapedetection/text_detector.idl
-
-This repo is a simple demonstration of that API, you can visit this page here
+This repo is a simple demonstration of the chromium OCR API, you can visit this page here
 https://sushanthr.github.io/OCRWebAPI/
+
+Chromium based browser have support for an OCR API to read text from images.
+https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/modules/shapedetection/text_detector.idl
 
 ## Note on Browser Requirement (Chrome/Edge Canary on Windows/Mac)
 
